@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../to_do_list/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>To Do List</h1>
+            <img class="icon" id="icon" src="icon.png" alt="icon" height="100">
+        </div>
+        <div class="input">
+            <input type="text" placeholder="Add a task" id="input">
+            <button class="add" onclick="addTask()">Add task</button>
+
+        </div>
+        <ul id="list">
+            <!-- <li class="checked">Task1</li>
+            <li>Task2</li>
+            <li>Task3</li>-->
+        </ul>
+        <script>
+            const input = document.getElementById("input");
+            const list = document.getElementById("list");
+
+            function addTask() {
+                if (input.value == '') {
+                    alert("Please provide a valid task");
+                }
+                else {
+                    let li = document.createElement("li");
+                    li.innerHTML = input.value;
+                    list.appendChild(li);
+                    let span = document.createElement("span");
+                    span.innerHTML = "\u00d7";
+                    li.appendChild(span);
+                }
+                input.value = '';
+                savedData()
+            }
+            list.addEventListener("click", function (e) {
+                if (e.target.tagName == "LI") {
+                    e.target.classList.toggle("checked");
+                    savedData()
+                    //e mtlb function me jo variable h , agar use target kr rhe h or uska jo tagName h wo LI h to if wala kaam hoga 
+                }
+                else if (e.target.tagName == "SPAN") {
+                    e.target.parentElement.remove();
+                    savedData()
+                }
+            }, false)
+
+            function savedData() {
+                localStorage.setItem("data", list.innerHTML);//local storage me save kr rhe h data ko 
+            }
+
+            function showTask() {
+                list.innerHTML = localStorage.getItem("data");//ab saved data ko show krne k liye even after reloading the page 
+            }
+
+            showTask();
+
+        </script>
+
+
+
+
+
+    </div>
+</body>
+
+</html>
